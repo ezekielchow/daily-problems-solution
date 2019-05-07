@@ -14,7 +14,7 @@
 //   }
 // ];
 
-// false
+// true
 // let data = [
 //   {
 //     top_left: [0, 1],
@@ -27,13 +27,61 @@
 // ];
 
 // true
+// let data = [
+//   {
+//     top_left: [0, 1],
+//     dimensions: [1, 1]
+//   },
+//   {
+//     top_left: [0, 1],
+//     dimensions: [1, 1]
+//   }
+// ];
+
+// false
+// let data = [
+//   {
+//     top_left: [-5, 10],
+//     dimensions: [1, 1]
+//   },
+//   {
+//     top_left: [-3, 9],
+//     dimensions: [1, 1]
+//   }
+// ];
+
+// false
+// let data = [
+//   {
+//     top_left: [-2, 5],
+//     dimensions: [1, 1]
+//   },
+//   {
+//     top_left: [-4, 3],
+//     dimensions: [1, 1]
+//   }
+// ];
+
+// false
+// let data = [
+//   {
+//     top_left: [3, 3],
+//     dimensions: [1, 1]
+//   },
+//   {
+//     top_left: [5, 1],
+//     dimensions: [1, 1]
+//   }
+// ];
+
+// false
 let data = [
   {
-    top_left: [0, 1],
+    top_left: [1, 1],
     dimensions: [1, 1]
   },
   {
-    top_left: [0, 1],
+    top_left: [4, 4],
     dimensions: [1, 1]
   }
 ];
@@ -49,7 +97,7 @@ data.forEach(rect => {
 
 console.log(data);
 
-let rectOverlaps = false;
+let rectOverlaps = true;
 
 for (let i = 0; i < data.length; i++) {
   for (let x = 0; x < data.length; x++) {
@@ -61,24 +109,24 @@ for (let i = 0; i < data.length; i++) {
     const rect_1 = data[x];
 
     if (
-      (rect_1.top_left[0] > rect_0.top_left[0] &&
-        rect_1.top_left[1] > rect_0.top_left[1] &&
-        rect_1.top_left[0] < rect_0.bottom_right[0] &&
-        rect_1.top_left[1] > rect_0.bottom_right[1]) ||
-      (rect_1.bottom_right[0] < rect_0.bottom_right[0] &&
-        rect_1.bottom_right[1] > rect_0.bottom_right[1] &&
-        rect_1.bottom_right[0] > rect_0.top_left[0] &&
-        rect_1.bottom_right[1] < rect_0.top_left[1]) ||
-      (rect_1.top_left[0] === rect_0.top_left[0] &&
-        rect_1.top_left[1] === rect_0.top_left[1] &&
-        rect_1.bottom_right[0] === rect_0.bottom_right[0] &&
-        rect_1.bottom_right[1] === rect_0.bottom_right[1])
+      // both rectangles are beside each other
+      rect_1.top_left[0] > rect_0.bottom_right[0] ||
+      rect_0.top_left[0] > rect_1.bottom_right[0]
     ) {
-      rectOverlaps = true;
+      rectOverlaps = false;
+      break;
+    }
+
+    if (
+      // both rectangles are beside each other
+      rect_0.bottom_right[1] > rect_1.top_left[1] ||
+      rect_1.bottom_right[1] > rect_0.top_left[1]
+    ) {
+      rectOverlaps = false;
       break;
     }
   }
-  if (rectOverlaps) {
+  if (!rectOverlaps) {
     break;
   }
 }
